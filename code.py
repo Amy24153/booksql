@@ -107,4 +107,24 @@ def return_book():
     db.commit()  # Save changes to the database
     print("Book returned successfully.")
     db.close()  # Close the database connection
+
+def search_status():
+    '''Search and display all books matching a given status (available/issued/returned)'''
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
     
+    # Get the status to filter by — .lower() ensures consistent matching
+    # since the database stores statuses in lowercase
+    status = input("Status (available/issued/returned): ").lower()
+    # Fetch only books that match the given status using a parameterised query
+    sql = 'SELECT * FROM book WHERE status=?;'
+    cursor.execute(sql, (status,))
+    results = cursor.fetchall()
+    # Print the filtered books in a nice format
+    print(f"\n--- {status.upper()} BOOKS ---")
+    print("Book ID  | Title                                         | Author                      | Issue Date | Return Date | Status    | Borrower")
+    print("-" * 145)
+    for row in results:
+        print(f"{row[0]:<8} | {row[1]:<45} | {row[2]:<27} | {str(row[3]):<10} | {str(row[4]):<11} | {row[5]:<9} | {row[6]}")
+
+    db.close()
