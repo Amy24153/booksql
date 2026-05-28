@@ -27,9 +27,17 @@ def print_all_books():
     results = cursor.fetchall()
     for row in results:
         print(f"{row[0]:<6} | {row[1]:<20} | {row[2]:<20} | {row[3]:<12}")
+    db.close()
 #MAIN CODE
-user_input = input("Enter 'print' to display all books: ")
-if user_input.lower() == 'print':
-    print_all_books()
-elif user_input.lower() == 'exit':
-    print("Exiting the program.")
+def add_person(): 
+    '''Add a new person/borrower record into the person table'''
+#CONNECT TO THE DATABASE
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    #GET USER INFORMATION
+    user_id = int(input("Enter user ID: ")) #INTEGER INPUT FOR USER ID TO MATCH THE DATABSE
+    first_name = input("Enter first name: ")
+    last_name = input("Enter last name: ")
+    city = input("Enter city: ")
+
