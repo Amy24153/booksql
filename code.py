@@ -45,3 +45,26 @@ def add_person():
     #'?' IS A PLACEHOLDER THAT WILL BE REPLACED WITH THE ACTUAL DATA WHEN THE QUERY IS EXECUTED
     sql = 'INSERT INTO person VALUES (?, ?, ?, ?);'
     cursor.execute(sql, (user_id, first_name, last_name, city))
+
+    db.commit() #COMMIT THE CHANGES TO THE DATABASE TO MAKE SURE THE NEW PERSON IS SAVED
+    print("Person added successfully.")
+    db.close() #CLOSE THE DATABASE CONNECTION
+
+def add_book():
+    '''Add a new book record into the book table with default status of available'''
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    #GET BOOK INFORMATION
+    book_id = int(input("Enter book ID: ")) #INTEGER INPUT FOR BOOK ID TO MATCH THE DATABASE
+    title = input("Enter book title: ")
+    author = input("Enter author name: ")
+
+    #INSERT THE NEW BOOK INTO THE DATABASE - ISSUE DATE, RETURN DATE, STATUS, ARE SET TO DEFAULT VALUES (NULL OR 'available')
+    #THE SQL QUERY USES PLACEHOLDERS FOR THE BOOK INFORMATION, AND THE STATUS IS SET TO 'available' BY DEFAULT
+    sql = 'INSERT INTO book (book_id, title, author, issue_date, status) VALUES (?, ?, ?, ?, ?);'
+    cursor.execute(sql, (book_id, title, author, 'available'))
+    
+    db.commit()
+    print("Book added successfully.")
+    db.close()
