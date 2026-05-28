@@ -28,7 +28,7 @@ def print_all_books(): #CREATE A FUNCTION TO PRINT ALL BOOKS IN THE DATABASE
     for row in results:
         print(f"{row[0]:<6} | {row[1]:<20} | {row[2]:<20} | {row[3]:<12}")
     db.close() #CLOSE THE DATABASE CONNECTION TO FREE UP RESOURCES AND PREVENT POTENTIAL ISSUES WITH TOO MANY OPEN CONNECTIONS
-#MAIN CODE
+
 def add_person(): 
     '''Add a new person/borrower record into the person table'''
 #CONNECT TO THE DATABASE
@@ -89,3 +89,22 @@ def issue_book():
     db.commit()  # Save changes to the database
     print("Book issued successfully.")
     db.close()
+
+def return_book():
+    '''Return a book by clearing its borrower info and marking it as returned'''
+    #CONNECT TO THE DATABASE
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    #GET THE BOOK ID TO BE RETURNED
+    book_id = int(input("Enter book ID to return: "))
+    #Clear the borrower link and dates, then update status to 'returned'
+    # NULL means no value — the book no longer has an active borrower or dates
+    sql = "UPDATE book SET user_id=NULL, issue_date=NULL, return_date=NULL, status='returned' WHERE book_id=?;"
+    cursor.execute(sql, (book_id,))
+    #Note: (book_id,) is a tuple with one item — the trailing comma is required
+    # without it Python treats it as just a variable, not a tuple
+    db.commit()  # Save changes to the database
+    print("Book returned successfully.")
+    db.close()  # Close the database connection
+    
