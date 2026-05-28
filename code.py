@@ -128,3 +128,28 @@ def search_status():
         print(f"{row[0]:<8} | {row[1]:<45} | {row[2]:<27} | {str(row[3]):<10} | {str(row[4]):<11} | {row[5]:<9} | {row[6]}")
 
     db.close()
+
+ #main program loop
+while True:
+    # Display the main menu options
+    print("\n===== LIBRARY MENU =====\n1. Print All Books & Users\n2. Add Person\n3. Add Book\n4. Issue Book\n5. Return Book\n6. Search by Status\n7. Exit")
+    choice = input("Choice: ")
+
+    # Call the matching function based on user input
+    if choice == "1":
+        print_all_books()       # Show all books and all users
+    elif choice == "2":
+        add_person()            # Register a new library member
+    elif choice == "3":
+        add_book()              # Add a new book to the library
+    elif choice == "4":
+        issue_book()            # Lend a book to a member
+    elif choice == "5":
+        return_book()           # Process a book return
+    elif choice == "6":
+        search_status()         # Filter books by their current status
+    elif choice == "7":
+        print("Exiting...")
+        break                   # Exit the while loop and end the program
+    else:
+        print("Invalid choice.")  # Handle any input that isn't 1-7
