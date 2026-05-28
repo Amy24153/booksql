@@ -68,3 +68,24 @@ def add_book():
     db.commit()
     print("Book added successfully.")
     db.close()
+
+def issue_book():
+    '''Issue an existing book to a registered user by updating its record'''
+
+    # Connect to the database
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+
+    # Collect the book and borrower details from the user
+    book_id     = int(input("Book ID: "))
+    user_id     = int(input("User ID: "))
+    issue_date  = input("Issue Date (DD/MM/YYYY): ")
+    return_date = input("Return Date (DD/MM/YYYY): ")
+
+    #UPDATE THE BOOK RECORD TO REFLECT THE ISSUE - SET THE STATUS
+    sql = "UPDATE book SET user_id=?, issue_date=?, return_date=?, status='issued' WHERE book_id=?;"
+    cursor.execute(sql, (user_id, issue_date, return_date, book_id))
+
+    db.commit()  # Save changes to the database
+    print("Book issued successfully.")
+    db.close()
